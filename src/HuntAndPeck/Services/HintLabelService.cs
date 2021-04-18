@@ -22,12 +22,28 @@ namespace HuntAndPeck.Services
             {
                 return hintStrings;
             }
-
+            
             var hintCharacters = new[] { 'S', 'A', 'D', 'F', 'J', 'K', 'L', 'E', 'W', 'C', 'M', 'P', 'G', 'H' };
             var digitsNeeded = (int)Math.Ceiling(Math.Log(hintCount) / Math.Log(hintCharacters.Length));
 
             var wholeHintCount = (int)Math.Pow(hintCharacters.Length, digitsNeeded);
-            var shortHintCount = (wholeHintCount - hintCount) / hintCharacters.Length;
+            var shortHintCount;
+            if (digitsNeeded == 2) 
+            {
+                var skip = (hintCount / hintCharacters.Length);
+                if ((hintCount + skip - 1) / hintCharacters.Length == skip)
+                {
+                    shortHintCount = hintCharacters.Length - skip; 
+                }
+                else 
+                {
+                    shortHintCount = hintCharacters.Length - skip - 1;
+                }
+            } 
+            else 
+            {   
+                shortHintCount = (wholeHintCount - hintCount) / hintCharacters.Length;
+            }
             var longHintCount = hintCount - shortHintCount;
 
             var longHintPrefixCount = wholeHintCount / hintCharacters.Length - shortHintCount;
